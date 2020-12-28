@@ -8,65 +8,90 @@ Exercises
 4. Change the snake to respond to arrow keys.
 
 """
-
 from turtle import *
 from random import randrange
 from freegames import square, vector
 
-food = vector(0, 0)
-snake = [vector(10, 0)]
-aim = vector(0, -10)
+class Head:
+    def __init__(self,x=10,y=0):
+        self.x = x
+        self.y = y
+        self.vector = vector(self.x, self.y)
+        
 
-def change(x, y):
-    "Change snake direction."
-    aim.x = x
-    aim.y = y
+class Food:
+    def __init__(self,x=0,y=0):
+        self.x = x
+        self.y = y
+        self.vector = vector(x,y)
+        
+class Snake:
+    
+    def __init__(self,x=0,y=0):
+        self.x = x
+        self.y = y
+        self.head = Head()
+        self.body = []
+        
+        self.aim = self.Aim()
+    class Aim:
+        def __init__(self):
+            self.x = 0
+            self.y = -10
+            self.vector = vector(self.x,self.y)
+        
 
-def inside(head):
-    "Return True if head inside boundaries."
-    return -200 < head.x < 190 and -200 < head.y < 190
+    def change(self,x, y):
+        "Change snake direction."
+        self.aim.x = x
+        self.aim.y = y
+    def move(self):
+        "Move snake forward one segment." #Mova a cobra um segmento para frente
+        self.head.vector = self.aim.vector
+        self.head = self.head.vector[-1]
 
-def move():
-    "Move snake forward one segment."
-    head = snake[-1].copy()
-    head.move(aim)
+          
+class GameSnake:
 
-    if not inside(head) or head in snake:
-        square(head.x, head.y, 9, 'red')
-        update()
-        return
+    def __init__(self):
+        self.food = Food()
+        self.snake = Snake()
 
-    snake.append(head)
+    def inside(self,head):
+        "Return True if head inside boundaries."
+        return -200 < self.snake.head.x < 190 and -200 < self.snake.head.y < 190
+    
+    def on_collision_with_border(self):
+        if(self.inside):
+            pass    
+        else:
+            square(self.snake.head.x, self.snake.head.y, 9, 'red')# desenha um dradrado vermelho
+            update()
+            return    
+    self.snake.append(head)
 
-    if head == food:
+    if self.snake.head == food.vector:
         print('Snake:', len(snake))
-        food.x = randrange(-15, 15) * 10
-        food.y = randrange(-15, 15) * 10
+        self.food.x = randrange(-15, 15) * 10 #novo X da comida no intervalo determinado
+        self.food.y = randrange(-15, 15) * 10 #novo Y da comida no intervalo determinado
     else:
-        snake.pop(0)
+        self.snake.pop(0)
 
     clear()
+    for body in self.snake.vector:
+        square(self.snake.body.x, self.snake.body.y, 9, 'black')
+        
 
-    for body in snake:
-        square(body.x, body.y, 9, 'black')
-
-    square(food.x, food.y, 9, 'green')
-    update()
-    ontimer(move, 100)
-
-class Snake():
-    def __init__(self):
-        head = [vector(0,0)]
-
-
-
-setup(420, 420, 370, 0)
-hideturtle()
-tracer(False)
-listen()
-onkey(lambda: change(10, 0), 'Right')
-onkey(lambda: change(-10, 0), 'Left')
-onkey(lambda: change(0, 10), 'Up')
-onkey(lambda: change(0, -10), 'Down')
-move()
-done()
+class setup:
+        
+    setup(420, 420, 370, 0)
+    hideturtle()
+    tracer(False)
+    listen()
+    game = GameSnake()
+    onkey(lambda: game.snake.change(10, 0), 'Right')
+    onkey(lambda: game.snake.change(-10, 0), 'Left')
+    onkey(lambda: game.snake.change(0, 10), 'Up')
+    onkey(lambda: game.snake.change(0, -10), 'Down')
+    game.snake.move()
+    done()
