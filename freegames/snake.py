@@ -19,7 +19,7 @@ from freegames import square, vector
 
 food = vector(0, 0) #posição inicial da comida
 snake = [vector(10, 0)]#posição inicial da cobra
-aim = vector(0,-20) # velocidade/direção da cobra
+aim = vector(0,-10) # velocidade/direção da cobra
 
 def change(x, y):
     "Change snake direction."#"Mudar a direção da cobra."

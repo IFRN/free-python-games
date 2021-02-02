@@ -51,6 +51,7 @@ class Snake:
         self.head = Head(x, y)
         self.body = [vector(10, 0)]
         self.aim = vector(0*self.SPEED, -10*self.SPEED)
+        self.direction = "SOUTH"
 
         self.status = 'LIVE'
 
@@ -62,11 +63,11 @@ class Snake:
         for x in range(food.cal, 0):
             del self.body[0]
 
-    def change(self, x, y):
+    '''def change(self, x, y):
         "Change snake direction."
         print('snake is changing')
         self.aim.x = x*self.SPEED
-        self.aim.y = y*self.SPEED
+        self.aim.y = y*self.SPEED'''
 
     def move(self):
         "Move snake forward one segment."
@@ -99,6 +100,37 @@ class Snake:
 
     def is_colliding_with_border(self):
        return not(-200 < self.head.x < 190 and -200 < self.head.y < 190)
+    
+    def left(self):
+        self.direction = "WEST"
+        self.aim.x = -10*self.SPEED
+        self.aim.y = 0*self.SPEED
+        print('snake is changing ',self.direction)
+
+    def right(self):
+        self.direction = "EAST"
+        self.aim.x = 10*self.SPEED
+        self.aim.y = 0*self.SPEED
+        print('snake is changing ',self.direction)
+    
+    def up (self):
+        self.direction = "NORTH"
+        self.aim.x = 0*self.SPEED
+        self.aim.y = 10*self.SPEED
+        print('snake is changing ',self.direction)
+    
+    def dowm (self):
+        self.direction = "SOUTH"
+        self.aim.x = 0*self.SPEED
+        self.aim.y = -10*self.SPEED
+        print('snake is changing ',self.direction)
+
+    """def on_keypressed(self):
+        direction_snake = self.direction
+        if direction_snake == "SOUTH" and"""
+
+        
+
 
 # 1. How do you make the SnakeFast or SnakeSlow classes?
 class SnakeFast(Snake):
@@ -117,11 +149,11 @@ class GameSnake:
         self.food = self.new_food()
         self.snake = Snake()
 
-        onkey(lambda: self.snake.change(10, 0), 'Right')
-        onkey(lambda: self.snake.change(-10, 0), 'Left')
-        onkey(lambda: self.snake.change(0, 10), 'Up')
-        onkey(lambda: self.snake.change(0, -10), 'Down')
-
+        onkey(lambda: self.snake.right(), 'Right')
+        onkey(lambda: self.snake.left(), 'Left')
+        onkey(lambda: self.snake.up(), 'Up')
+        onkey(lambda: self.snake.dowm(), 'Down')
+    
     def new_food(self):
         foods = [Food,
                 Apple,
