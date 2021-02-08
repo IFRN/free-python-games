@@ -63,12 +63,6 @@ class Snake:
         for x in range(food.cal, 0):
             del self.body[0]
 
-    '''def change(self, x, y):
-        "Change snake direction."
-        print('snake is changing')
-        self.aim.x = x*self.SPEED
-        self.aim.y = y*self.SPEED'''
-
     def move(self):
         "Move snake forward one segment."
         self.head = Head(*self.body[-1].copy())
@@ -89,7 +83,7 @@ class Snake:
         self.dead()
 
     def is_eating_himself(self):
-        print(self.head.position, self.body)
+        #print(self.head.position, self.body)
         return (self.head.position in self.body)
 
     def dead(self):
@@ -102,36 +96,53 @@ class Snake:
        return not(-200 < self.head.x < 190 and -200 < self.head.y < 190)
     
     def left(self):
-        self.direction = "WEST"
-        self.aim.x = -10*self.SPEED
-        self.aim.y = 0*self.SPEED
-        print('snake is changing ',self.direction)
+        if self.direction == "NORTH" :
+            self.aim.x = -10*self.SPEED
+            self.aim.y = 0*self.SPEED
+
+        elif self.direction == "SOUTH":
+            self.aim.x = 10*self.SPEED
+            self.aim.y = 0*self.SPEED
+
+
+        elif self.direction == "WEST" :
+            self.aim.x = 0*self.SPEED
+            self.aim.y = -10*self.SPEED
+            
+        elif self.direction == "EAST":
+            self.aim.x = 0*self.SPEED
+            self.aim.y = 10*self.SPEED
+
+        
 
     def right(self):
-        self.direction = "EAST"
-        self.aim.x = 10*self.SPEED
-        self.aim.y = 0*self.SPEED
-        print('snake is changing ',self.direction)
+        if self.direction == "NORTH" :
+            self.aim.x = 10*self.SPEED
+            self.aim.y = 0*self.SPEED
+
+        elif  self.direction == "SOUTH":
+            self.aim.x = -10*self.SPEED
+            self.aim.y = 0*self.SPEED
+
+        elif self.direction == "WEST" :
+            self.aim.x = 0*self.SPEED
+            self.aim.y = 10*self.SPEED
+
+        elif self.direction == "EAST":
+            self.aim.x = 0*self.SPEED
+            self.aim.y = -10*self.SPEED
+
     
-    def up (self):
-        self.direction = "NORTH"
+'''    def up (self):
         self.aim.x = 0*self.SPEED
         self.aim.y = 10*self.SPEED
         print('snake is changing ',self.direction)
     
     def dowm (self):
-        self.direction = "SOUTH"
         self.aim.x = 0*self.SPEED
         self.aim.y = -10*self.SPEED
-        print('snake is changing ',self.direction)
-
-    """def on_keypressed(self):
-        direction_snake = self.direction
-        if direction_snake == "SOUTH" and"""
-
+        print('snake is changing ',self.direction) '''
         
-
-
 # 1. How do you make the SnakeFast or SnakeSlow classes?
 class SnakeFast(Snake):
     SPEED = 2
@@ -149,10 +160,57 @@ class GameSnake:
         self.food = self.new_food()
         self.snake = Snake()
 
-        onkey(lambda: self.snake.right(), 'Right')
-        onkey(lambda: self.snake.left(), 'Left')
-        onkey(lambda: self.snake.up(), 'Up')
-        onkey(lambda: self.snake.dowm(), 'Down')
+        onkey(lambda: self.on_rightkeypressed() , 'Right')
+        onkey(lambda: self.on_leftkeypressed(), 'Left')
+        onkey(lambda: self.on_upkeypressed(), 'Up')
+        onkey(lambda: self.on_downkeypressed(), 'Down')
+
+    #EAST
+    def on_rightkeypressed(self):
+        if self.snake.direction == 'NORTH':
+            self.snake.right()
+            self.snake.direction = "EAST"
+            
+        elif self.snake.direction == "SOUTH":
+            self.snake.left()
+            self.snake.direction = "EAST"
+    
+        print('snake is changing ',self.snake.direction)
+    
+    #WEST
+    def on_leftkeypressed(self):
+        if self.snake.direction == 'NORTH':
+            self.snake.left()
+            self.snake.direction = "WEST"
+            
+        elif self.snake.direction == "SOUTH":
+            self.snake.right()
+            self.snake.direction = "WEST"
+        
+        print('snake is changing ',self.snake.direction)    
+            
+    #NORTH
+    def on_upkeypressed(self):
+        if self.snake.direction == 'WEST':
+            self.snake.right()
+            self.snake.direction = "NORTH"
+            
+        elif self.snake.direction == "EAST":
+            self.snake.left()
+            self.snake.direction = "NORTH"
+
+        print('snake is changing ',self.snake.direction)
+    
+    #SOUTH
+    def  on_downkeypressed (self):
+        if self.snake.direction == 'WEST':
+            self.snake.left()
+            self.snake.direction = "SOUTH"
+
+        elif self.snake.direction == "EAST":
+            self.snake.right()
+        self.snake.direction = "SOUTH"
+        print('snake is changing ',self.snake.direction)
     
     def new_food(self):
         foods = [Food,
