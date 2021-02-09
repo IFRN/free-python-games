@@ -30,20 +30,7 @@ class Head(Actor):
 
 class Food(Actor):
     color = 'Blue'
-    cal = 5
-
-#3. How would you make a new food types? When snake eat will more fast or decrease?
-class Apple(Food):
-    color = 'Green'
-    cal = 10
-
-class Mouse(Food):
-    color = 'Brown'
-    cal = 15
-
-class BadFood(Food):
-    color = 'Red'
-    cal = -5
+    cal = 1
 
 class Snake:
     SPEED = 1
@@ -52,7 +39,6 @@ class Snake:
         self.body = [vector(10, 0)]
         self.aim = vector(0*self.SPEED, -10*self.SPEED)
         self.direction = "SOUTH"
-
         self.status = 'LIVE'
 
     def eat(self, food):
@@ -113,8 +99,6 @@ class Snake:
             self.aim.x = 0*self.SPEED
             self.aim.y = 10*self.SPEED
 
-        
-
     def right(self):
         if self.direction == "NORTH" :
             self.aim.x = 10*self.SPEED
@@ -130,25 +114,7 @@ class Snake:
 
         elif self.direction == "EAST":
             self.aim.x = 0*self.SPEED
-            self.aim.y = -10*self.SPEED
-
-    
-'''    def up (self):
-        self.aim.x = 0*self.SPEED
-        self.aim.y = 10*self.SPEED
-        print('snake is changing ',self.direction)
-    
-    def dowm (self):
-        self.aim.x = 0*self.SPEED
-        self.aim.y = -10*self.SPEED
-        print('snake is changing ',self.direction) '''
-        
-# 1. How do you make the SnakeFast or SnakeSlow classes?
-class SnakeFast(Snake):
-    SPEED = 2
-
-class SnakeSlow(Snake):
-    SPEED = 0.5
+            self.aim.y = -10*self.SPEED   
 
 #2. How do you make a SnakeSmart, that change the direction when collide with edges?
 class SnakeSmart(Snake):
@@ -175,8 +141,6 @@ class GameSnake:
             self.snake.left()
             self.snake.direction = "EAST"
     
-        print('snake is changing ',self.snake.direction)
-    
     #WEST
     def on_leftkeypressed(self):
         if self.snake.direction == 'NORTH':
@@ -186,9 +150,7 @@ class GameSnake:
         elif self.snake.direction == "SOUTH":
             self.snake.right()
             self.snake.direction = "WEST"
-        
-        print('snake is changing ',self.snake.direction)    
-            
+
     #NORTH
     def on_upkeypressed(self):
         if self.snake.direction == 'WEST':
@@ -199,8 +161,6 @@ class GameSnake:
             self.snake.left()
             self.snake.direction = "NORTH"
 
-        print('snake is changing ',self.snake.direction)
-    
     #SOUTH
     def  on_downkeypressed (self):
         if self.snake.direction == 'WEST':
@@ -210,14 +170,9 @@ class GameSnake:
         elif self.snake.direction == "EAST":
             self.snake.right()
         self.snake.direction = "SOUTH"
-        print('snake is changing ',self.snake.direction)
-    
+
     def new_food(self):
-        foods = [Food,
-                Apple,
-                Mouse,
-                BadFood,
-                ]
+        foods = [Food]
         type_food = choice(foods)
         food = type_food(0, 0)
         food.position = vector(randrange(-15, 15) * 10, randrange(-15, 15) * 10)
