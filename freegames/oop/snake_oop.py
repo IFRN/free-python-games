@@ -12,8 +12,7 @@ from turtle import setup, hideturtle, tracer, listen, onkey, done, update, clear
 from random import randrange, choice
 from freegames import square, vector
 
-# 4. How do you create a Actor that will be the Head and Food superclass?
-class Actor:
+class Head:
     def __init__(self, x, y):
         self.position = vector(x, y)
 
@@ -25,12 +24,19 @@ class Actor:
     def y(self):
         return self.position.y
 
-class Head(Actor):
-    pass
-
-class Food(Actor):
+class Food:
     color = 'Blue'
     cal = 1
+    def __init__(self, x, y):
+        self.position = vector(x, y)
+
+    @property
+    def x(self):
+        return self.position.x
+
+    @property
+    def y(self):
+        return self.position.y
 
 class Snake:
     SPEED = 1
@@ -69,7 +75,6 @@ class Snake:
         self.dead()
 
     def is_eating_himself(self):
-        #print(self.head.position, self.body)
         return (self.head.position in self.body)
 
     def dead(self):
@@ -89,7 +94,6 @@ class Snake:
         elif self.direction == "SOUTH":
             self.aim.x = 10*self.SPEED
             self.aim.y = 0*self.SPEED
-
 
         elif self.direction == "WEST" :
             self.aim.x = 0*self.SPEED
@@ -116,7 +120,6 @@ class Snake:
             self.aim.x = 0*self.SPEED
             self.aim.y = -10*self.SPEED   
 
-#2. How do you make a SnakeSmart, that change the direction when collide with edges?
 class SnakeSmart(Snake):
     def on_collision_with_border(self):
         self.change(10, 0)
@@ -131,7 +134,6 @@ class GameSnake:
         onkey(lambda: self.on_upkeypressed(), 'Up')
         onkey(lambda: self.on_downkeypressed(), 'Down')
 
-    #EAST
     def on_rightkeypressed(self):
         if self.snake.direction == 'NORTH':
             self.snake.right()
@@ -141,7 +143,6 @@ class GameSnake:
             self.snake.left()
             self.snake.direction = "EAST"
     
-    #WEST
     def on_leftkeypressed(self):
         if self.snake.direction == 'NORTH':
             self.snake.left()
@@ -151,7 +152,6 @@ class GameSnake:
             self.snake.right()
             self.snake.direction = "WEST"
 
-    #NORTH
     def on_upkeypressed(self):
         if self.snake.direction == 'WEST':
             self.snake.right()
@@ -161,7 +161,6 @@ class GameSnake:
             self.snake.left()
             self.snake.direction = "NORTH"
 
-    #SOUTH
     def  on_downkeypressed (self):
         if self.snake.direction == 'WEST':
             self.snake.left()
@@ -184,7 +183,6 @@ class GameSnake:
             square(body.x, body.y, 9, 'black')
         square(self.food.x, self.food.y, 9, self.food.color)
         update()
-
         self.snake.move()
 
         if self.snake.head.position == self.food.position:
