@@ -137,34 +137,30 @@ class GameSnake:
     def on_rightkeypressed(self):
         if self.snake.direction == 'NORTH':
             self.snake.right()
-            self.snake.direction = "EAST"
             
         elif self.snake.direction == "SOUTH":
             self.snake.left()
-            self.snake.direction = "EAST"
+        self.snake.direction = "EAST"
     
     def on_leftkeypressed(self):
         if self.snake.direction == 'NORTH':
             self.snake.left()
-            self.snake.direction = "WEST"
             
         elif self.snake.direction == "SOUTH":
             self.snake.right()
-            self.snake.direction = "WEST"
+        self.snake.direction = "WEST"
 
     def on_upkeypressed(self):
         if self.snake.direction == 'WEST':
             self.snake.right()
-            self.snake.direction = "NORTH"
             
         elif self.snake.direction == "EAST":
             self.snake.left()
-            self.snake.direction = "NORTH"
+        self.snake.direction = "NORTH"
 
     def  on_downkeypressed (self):
         if self.snake.direction == 'WEST':
             self.snake.left()
-            self.snake.direction = "SOUTH"
 
         elif self.snake.direction == "EAST":
             self.snake.right()
