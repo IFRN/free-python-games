@@ -5,7 +5,8 @@ Exercises
 1. How do you make the SnakeFast or SnakeSlow classes?
 2. How do you make a SnakeSmart, that change the direction when collide with edges?
 3. How would you make a new food types? When snake eat them it will more fast or decrease?
-4. How do you create a Actor that will be the Head and Food superclass? """
+4. How do you create a Actor that will be the Head and Food superclass? 
+"""
 
 from turtle import setup, hideturtle, tracer, listen, onkey, done, update, clear, ontimer
 from random import randrange, choice
@@ -118,10 +119,6 @@ class Snake:
         elif self.direction == "EAST":
             self.aim.x = 0*self.SPEED
             self.aim.y = -10*self.SPEED   
-
-class SnakeSmart(Snake):
-    def on_collision_with_border(self):
-        self.change(10, 0)
 
 class GameSnake:
     def __init__(self):
